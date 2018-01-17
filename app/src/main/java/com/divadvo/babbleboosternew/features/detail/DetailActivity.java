@@ -21,6 +21,7 @@ import com.divadvo.babbleboosternew.data.model.response.Statistic;
 import com.divadvo.babbleboosternew.features.base.BaseActivity;
 import com.divadvo.babbleboosternew.features.common.ErrorView;
 import com.divadvo.babbleboosternew.features.detail.widget.StatisticView;
+import com.divadvo.babbleboosternew.features.lock.LockActivity;
 import com.divadvo.babbleboosternew.injection.component.ActivityComponent;
 import timber.log.Timber;
 
@@ -122,6 +123,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Error
         pokemonLayout.setVisibility(View.GONE);
         errorView.setVisibility(View.VISIBLE);
         Timber.e(error, "There was a problem retrieving the pokemon...");
+        startActivity(LockActivity.getStartIntent(this));
     }
 
     @Override

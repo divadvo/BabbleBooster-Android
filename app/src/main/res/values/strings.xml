@@ -16,4 +16,7 @@
     <string name="error_reload">Reload</string>
     <string name="title_activity_maps_sample">Map</string>
     <string name="error_something_bad_happened">Something bad happened. Please try again.</string>
+    <string name="text_password">Password</string>
+    <string name="login">Login</string>
+    <string name="login_online">Login Online</string>
 </resources>
