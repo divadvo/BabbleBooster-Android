@@ -18,5 +18,9 @@
     <string name="error_something_bad_happened">Something bad happened. Please try again.</string>
     <string name="text_password">Password</string>
     <string name="login">Login</string>
-    <string name="login_online">Login Online</string>
+    <string name="login_online">Login WIFI</string>
+    <string name="play">Play</string>
+    <string name="test">Test</string>
+    <string name="settings">Settings</string>
+    <string name="progress">Progress</string>
 </resources>

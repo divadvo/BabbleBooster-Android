@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "921140280718",
+    "firebase_url": "https://babbleboosternew.firebaseio.com",
+    "project_id": "babbleboosternew",
+    "storage_bucket": "babbleboosternew.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921140280718:android:44ce9a6baef29b82",
+        "android_client_info": {
+          "package_name": "com.divadvo.babbleboosternew"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "921140280718-6cpj5nasfjk61ms64dp9uliblk7cvc1r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.divadvo.babbleboosternew",
+            "certificate_hash": "742cad1ecb2688b0701a21d25ce6a45205ec47d9"
+          }
+        },
+        {
+          "client_id": "921140280718-b401huml4586t2fprj7s8nu5g8ufr5r8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_TCjlQEe_EVWUbk7BCjASgjhVkMQ1AY8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "921140280718-b401huml4586t2fprj7s8nu5g8ufr5r8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

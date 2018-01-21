@@ -24,6 +24,8 @@ android {
         versionCode 1000
         // Major -> Millions, Minor -> Thousands, Bugfix -> Hundreds. E.g 1.3.72 == 1,003,072
         versionName '0.1.0'
+        multiDexEnabled true
+
 
         buildConfigField("String", "POKEAPI_API_URL",
                 "\"${PokeapiApiUrl}\"")
@@ -87,7 +89,8 @@ android {
                 systemProperty 'robolectric.logging', 'stdout'
                 // Print test details in the terminal (or CI).
                 testLogging {
-                    events 'passed', 'skipped', 'failed', 'standardOut', 'standardError' // Log out test results to console
+                    events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+                    // Log out test results to console
                     exceptionFormat 'full'
                 }
             }
@@ -127,4 +130,12 @@ dependencies {
 
     testImplementation unitTestLibs
     androidTestImplementation androidTestsLibs
+
+    compile 'com.snatik:storage:2.1.0'
+    compile 'com.afollestad:material-camera:0.4.4'
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    compile 'com.synnapps:carouselview:0.1.4'
+
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 }
+apply plugin: 'com.google.gms.google-services'

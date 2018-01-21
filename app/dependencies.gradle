@@ -66,7 +66,10 @@ ext {
             maps             : "com.google.android.gms:play-services-maps:$versions.firebase",
             crash            : "com.google.firebase:firebase-crash:$versions.firebase",
             firebaseCore     : "com.google.firebase:firebase-core:$versions.firebase",
-            firebaseMessaging: "com.google.firebase:firebase-messaging:$versions.firebase"
+            firebaseMessaging: "com.google.firebase:firebase-messaging:$versions.firebase",
+            firebaseStorage  : "com.google.firebase:firebase-storage:$versions.firebase",
+            firebaseFirestore: "com.google.firebase:firebase-firestore:$versions.firebase",
+            firebaseAuth     : "com.google.firebase:firebase-auth:$versions.firebase",
     ]
 
     onlyDebug = [

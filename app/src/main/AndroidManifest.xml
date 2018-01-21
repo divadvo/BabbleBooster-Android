@@ -11,6 +11,15 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+
     <application
         android:name="com.divadvo.babbleboosternew.MvpStarterApplication"
         android:allowBackup="true"
@@ -35,6 +44,35 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.divadvo.babbleboosternew.features.home.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.divadvo.babbleboosternew.features.choosePhonemes.ChoosePhonemesActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.divadvo.babbleboosternew.features.learnPhonemes.LearnPhonemesActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.divadvo.babbleboosternew.features.recordVideo.RecordVideoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.divadvo.babbleboosternew.features.settingsChoose.SettingsChooseActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.divadvo.babbleboosternew.features.customizeReinforcement.CustomizeReinforcementActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.divadvo.babbleboosternew.features.customizeStimuli.CustomizeStimuliActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+
+        <activity
+            android:name="com.afollestad.materialcamera.CaptureActivity"
+            android:theme="@style/MaterialCamera.CaptureActivity" />
+        <activity
+            android:name="com.afollestad.materialcamera.CaptureActivity2"
+            android:theme="@style/MaterialCamera.CaptureActivity" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
