@@ -148,7 +148,7 @@ public class StorageHelper {
         String folder = isTest ? getTestFolder() : getAttemptFolder();
 
         File originalFileWithoutFile = new File(folder, originalFile.getName());
-        File newFile = new File(getAttemptFolder(), newFilename);
+        File newFile = new File(folder, newFilename);
         originalFileWithoutFile.renameTo(newFile);
 //        storage.move(originalFile.getAbsolutePath(), newFile.getAbsolutePath());
         return newFile.getAbsolutePath();

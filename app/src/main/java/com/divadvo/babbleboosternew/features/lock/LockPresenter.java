@@ -1,5 +1,6 @@
 package com.divadvo.babbleboosternew.features.lock;
 
+import com.divadvo.babbleboosternew.data.local.LocalUser;
 import com.divadvo.babbleboosternew.data.local.PreferencesHelper;
 import com.divadvo.babbleboosternew.data.local.User;
 import com.divadvo.babbleboosternew.features.base.BasePresenter;
@@ -46,6 +47,7 @@ public class LockPresenter extends BasePresenter<LockMvpView> {
 
     public boolean doesLocalUserExist() {
         String usernameSaved = preferencesHelper.getString("username");
+//        String usernameSaved = LocalUser.getInstance().username;
         return !usernameSaved.equals("");
     }
 
@@ -82,7 +84,6 @@ public class LockPresenter extends BasePresenter<LockMvpView> {
                     // Save user in local preferences
                     preferencesHelper.saveUser(user);
 //                    LocalUser.setInstance(user);
-//                    preferencesHelper.putString("username", password);
 
                     getView().savedUserInLocal(password);
                 } else {

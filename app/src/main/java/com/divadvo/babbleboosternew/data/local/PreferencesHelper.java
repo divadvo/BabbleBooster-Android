@@ -56,6 +56,7 @@ public class PreferencesHelper {
     public void saveUser(User user) {
         String json = new Gson().toJson(user);
         preferences.edit().putString("User", json).apply();
+        putString("username", user.username);
     }
 
     public void loadUser() {

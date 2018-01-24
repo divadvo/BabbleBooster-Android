@@ -179,6 +179,20 @@ public class DbManager {
         return averageValid;
     }
 
+    public double getBestDayAverage(String phoneme) {
+        List<Attempt> attemptsForPhoneme = getAllAttemptsForPhoneme(phoneme);
+        Map<Date, List<Attempt>> attemptsGroupedByDay = groupAttemptsByDay(attemptsForPhoneme);
+        Map<Date, Double> daysWithAverages = calculateAverages(attemptsGroupedByDay);
+
+        double max = 0;
+        for (Map.Entry<Date, Double> day : daysWithAverages.entrySet()) {
+            Double attemptDay = day.getValue();
+            if (attemptDay > max)
+                max = attemptDay;
+        }
+        return max;
+    }
+
     private Date getDateWithOutTime(Date targetDate) {
         Calendar newDate = Calendar.getInstance();
         newDate.setLenient(false);

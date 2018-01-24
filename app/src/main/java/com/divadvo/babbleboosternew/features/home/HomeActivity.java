@@ -12,6 +12,7 @@ import com.divadvo.babbleboosternew.data.local.LocalUser;
 import com.divadvo.babbleboosternew.data.local.User;
 import com.divadvo.babbleboosternew.features.base.BaseActivity;
 import com.divadvo.babbleboosternew.features.choosePhonemes.ChoosePhonemesActivity;
+import com.divadvo.babbleboosternew.features.progress.ProgressActivity;
 import com.divadvo.babbleboosternew.features.settingsChoose.SettingsChooseActivity;
 import com.divadvo.babbleboosternew.features.testChoose.TestChooseActivity;
 import com.divadvo.babbleboosternew.injection.component.ActivityComponent;
@@ -59,6 +60,8 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         buttonPlay.setOnClickListener(v -> startActivity(ChoosePhonemesActivity.getStartIntent(this)));
 
         buttonTest.setOnClickListener(v -> startActivity(TestChooseActivity.getStartIntent(this)));
+
+        buttonProgress.setOnClickListener(v -> startActivity(ProgressActivity.getStartIntent(this)));
     }
 
     private void enableSomeButtons() {

@@ -11,6 +11,7 @@ import com.divadvo.babbleboosternew.features.home.HomeActivity;
 import com.divadvo.babbleboosternew.features.learnPhonemes.LearnPhonemesActivity;
 import com.divadvo.babbleboosternew.features.lock.LockActivity;
 import com.divadvo.babbleboosternew.features.main.MainActivity;
+import com.divadvo.babbleboosternew.features.progress.ProgressActivity;
 import com.divadvo.babbleboosternew.features.recordVideo.RecordVideoActivity;
 import com.divadvo.babbleboosternew.features.recordVideo.RecordVideoMvpView;
 import com.divadvo.babbleboosternew.features.settingsChoose.SettingsChooseActivity;
@@ -43,4 +44,6 @@ public interface ActivityComponent {
     void inject(CustomizeStimuliActivity customizeStimuliActivity);
 
     void inject(TestChooseActivity testChooseActivity);
+
+    void inject(ProgressActivity progressActivity);
 }

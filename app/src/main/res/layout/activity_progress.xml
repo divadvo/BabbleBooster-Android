@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:visibility="visible"
+    android:layout_marginTop="20dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Current Scores"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/text_view_current_scores"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="You have already mastered these sounds:"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/text_view_mastered_sounds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp" />
+</LinearLayout>
