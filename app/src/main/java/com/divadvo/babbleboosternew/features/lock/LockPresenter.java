@@ -1,15 +1,9 @@
 package com.divadvo.babbleboosternew.features.lock;
 
-import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.util.Log;
-
 import com.divadvo.babbleboosternew.data.local.PreferencesHelper;
+import com.divadvo.babbleboosternew.data.local.User;
 import com.divadvo.babbleboosternew.features.base.BasePresenter;
 import com.divadvo.babbleboosternew.injection.ConfigPersistent;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -84,8 +78,13 @@ public class LockPresenter extends BasePresenter<LockMvpView> {
                 // ie the password was correct
                 if (document != null && document.exists()) {
                     Timber.d("DocumentSnapshot data: " + task.getResult().getData());
-                    preferencesHelper.putString("username", password);
-                    getView().loginSuccessfulOnline(password);
+                    User user = document.toObject(User.class);
+                    // Save user in local preferences
+                    preferencesHelper.saveUser(user);
+//                    LocalUser.setInstance(user);
+//                    preferencesHelper.putString("username", password);
+
+                    getView().savedUserInLocal(password);
                 } else {
                     Timber.d( "No such document");
                     getView().wrongPassword();
@@ -105,12 +104,16 @@ public class LockPresenter extends BasePresenter<LockMvpView> {
         mAuth.signInWithEmailAndPassword(email, email).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
 //                FirebaseUser user = mAuth.getCurrentUser();
-                getView().loginSuccessfulOnline(password);
+                getView().savedUserInLocal(password);
             } else {
                 Timber.e(task.getException());
                 getView().wrongPassword();
             }
         });
 
+    }
+
+    public void loadUser() {
+        preferencesHelper.loadUser();
     }
 }

@@ -113,7 +113,7 @@ public class LearnPhonemesActivity extends BaseActivity implements LearnPhonemes
         phonemeVideo.setOnPreparedListener(mp -> mp.setLooping(true));
 
         btnSkip.setOnClickListener(v -> {
-            startActivity(RecordVideoActivity.getStartIntent(this, phoneme));
+            startActivity(RecordVideoActivity.getStartIntent(this, phoneme, false));
             finish();
         });
 

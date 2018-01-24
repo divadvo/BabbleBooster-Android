@@ -5,6 +5,7 @@ import android.content.Context;
 import com.snatik.storage.Storage;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class StorageHelper {
         return folder;
     }
 
-    // root/attempts
+    // root/tests
     public String getTestFolder() {
         String folder = rootAppInternalFolder + File.separator + "tests";
         storage.createDirectory(folder);
@@ -133,9 +134,23 @@ public class StorageHelper {
 
     public List<String> getListOfFilesToIgnore(String phoneme) {
         String ignoreFilePath = ignoreFilePath(phoneme);
+        if(!storage.isFileExist(ignoreFilePath))
+            return new ArrayList<>();
         String content = storage.readTextFile(ignoreFilePath);
         String lines[] = content.split("\\r?\\n");
         List<String> linesList = Arrays.asList(lines);
         return linesList;
+    }
+
+    public String newAttemptFilePath(String videoPath, String attemptName, boolean isTest) {
+        File originalFile = new File(videoPath); // with file://
+        String newFilename = attemptName + "." + getFileExtension(originalFile);
+        String folder = isTest ? getTestFolder() : getAttemptFolder();
+
+        File originalFileWithoutFile = new File(folder, originalFile.getName());
+        File newFile = new File(getAttemptFolder(), newFilename);
+        originalFileWithoutFile.renameTo(newFile);
+//        storage.move(originalFile.getAbsolutePath(), newFile.getAbsolutePath());
+        return newFile.getAbsolutePath();
     }
 }

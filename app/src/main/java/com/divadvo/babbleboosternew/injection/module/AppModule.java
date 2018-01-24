@@ -8,6 +8,7 @@ import dagger.Module;
 import dagger.Provides;
 
 import com.divadvo.babbleboosternew.data.firebase.FirebaseSyncHelper;
+import com.divadvo.babbleboosternew.data.local.DbManager;
 import com.divadvo.babbleboosternew.data.local.StorageHelper;
 import com.divadvo.babbleboosternew.injection.ApplicationContext;
 import com.snatik.storage.Storage;
@@ -50,6 +51,12 @@ public class AppModule {
     @Provides
     @Singleton
     FirebaseSyncHelper provideFirebaseSyncHelper(@ApplicationContext Context context) {
-        return new FirebaseSyncHelper(context, provideStorageHelper(context));
+        return new FirebaseSyncHelper(context, provideStorageHelper(context), provideDbManager(context));
+    }
+
+    @Provides
+    @Singleton
+    DbManager provideDbManager(@ApplicationContext Context context) {
+        return new DbManager(context);
     }
 }

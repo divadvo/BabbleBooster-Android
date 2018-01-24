@@ -5,21 +5,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.divadvo.babbleboosternew.R;
+import com.divadvo.babbleboosternew.data.local.LocalUser;
+import com.divadvo.babbleboosternew.data.local.User;
 import com.divadvo.babbleboosternew.features.base.BaseActivity;
 import com.divadvo.babbleboosternew.features.choosePhonemes.ChoosePhonemesActivity;
 import com.divadvo.babbleboosternew.features.settingsChoose.SettingsChooseActivity;
+import com.divadvo.babbleboosternew.features.testChoose.TestChooseActivity;
 import com.divadvo.babbleboosternew.injection.component.ActivityComponent;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import timber.log.Timber;
 
 public class HomeActivity extends BaseActivity implements HomeMvpView {
 
@@ -49,7 +53,35 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        enableSomeButtons();
+
         buttonPlay.setOnClickListener(v -> startActivity(ChoosePhonemesActivity.getStartIntent(this)));
+
+        buttonTest.setOnClickListener(v -> startActivity(TestChooseActivity.getStartIntent(this)));
+    }
+
+    private void enableSomeButtons() {
+        User user = LocalUser.getInstance();
+        Date today = new Date();
+
+        if(today.after(user.a_start_date) && isTodayTestDay(today, user.test_dates)) {
+            buttonTest.setEnabled(true);
+        }
+
+        if(today.after(user.b_start_date)) {
+            buttonPlay.setEnabled(true);
+        }
+    }
+
+    private boolean isTodayTestDay(Date today, ArrayList<Date> testDates) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+        for(Date testDate : testDates) {
+            // is same day?
+            if(fmt.format(testDate).equals(fmt.format(today)))
+                return true;
+        }
+        return false;
     }
 
     @OnClick(R.id.button_settings)

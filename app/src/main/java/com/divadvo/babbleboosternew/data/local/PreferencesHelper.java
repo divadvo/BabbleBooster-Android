@@ -2,6 +2,11 @@ package com.divadvo.babbleboosternew.data.local;
 
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -12,10 +17,12 @@ public class PreferencesHelper {
     private static final String PREF_FILE_NAME = "mvpstarter_pref_file";
 
     private final SharedPreferences preferences;
+    private final DbManager dbManager;
 
     @Inject
-    PreferencesHelper(SharedPreferences sharedPreferences) {
+    PreferencesHelper(SharedPreferences sharedPreferences, DbManager dbManager) {
         preferences = sharedPreferences;
+        this.dbManager = dbManager;
     }
 
     public void putString(@Nonnull String key, @Nonnull String value) {
@@ -44,5 +51,19 @@ public class PreferencesHelper {
 
     public void clear() {
         preferences.edit().clear().apply();
+    }
+
+    public void saveUser(User user) {
+        String json = new Gson().toJson(user);
+        preferences.edit().putString("User", json).apply();
+    }
+
+    public void loadUser() {
+        String json = preferences.getString("User", "");
+        User user = new Gson().fromJson(json, User.class);
+        LocalUser.setInstance(user);
+
+        LocalUser.getInstance().mastered_phonemes = dbManager.recalculateMasteredPhonemes();
+        saveUser(LocalUser.getInstance());
     }
 }

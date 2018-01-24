@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.divadvo.babbleboosternew.R;
+import com.divadvo.babbleboosternew.data.local.LocalUser;
 import com.divadvo.babbleboosternew.features.base.BaseActivity;
 import com.divadvo.babbleboosternew.features.customizeReinforcement.CustomizeReinforcementActivity;
 import com.divadvo.babbleboosternew.features.customizeStimuli.CustomizeStimuliActivity;
@@ -52,7 +53,8 @@ public class SettingsChooseActivity extends BaseActivity implements SettingsChoo
 
     private void getPhonemes() {
 //        phonemes = new ArrayList<>(user.getCurrentPhonemes());
-        phonemes = Arrays.asList("p", "b", "k");
+//        phonemes = Arrays.asList("p", "b", "k");
+        phonemes = LocalUser.getInstance().getCurrentPhonemes();
     }
 
     private void generateButtons() {

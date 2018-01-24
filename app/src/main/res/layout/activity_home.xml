@@ -7,12 +7,14 @@
         android:id="@+id/button_play"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:text="@string/play" />
 
     <Button
         android:id="@+id/button_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:text="@string/test" />
 
     <Button

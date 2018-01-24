@@ -14,6 +14,7 @@ import com.divadvo.babbleboosternew.features.main.MainActivity;
 import com.divadvo.babbleboosternew.features.recordVideo.RecordVideoActivity;
 import com.divadvo.babbleboosternew.features.recordVideo.RecordVideoMvpView;
 import com.divadvo.babbleboosternew.features.settingsChoose.SettingsChooseActivity;
+import com.divadvo.babbleboosternew.features.testChoose.TestChooseActivity;
 import com.divadvo.babbleboosternew.injection.PerActivity;
 import com.divadvo.babbleboosternew.injection.module.ActivityModule;
 
@@ -40,4 +41,6 @@ public interface ActivityComponent {
     void inject(CustomizeReinforcementActivity customizeReinforcementActivity);
 
     void inject(CustomizeStimuliActivity customizeStimuliActivity);
+
+    void inject(TestChooseActivity testChooseActivity);
 }

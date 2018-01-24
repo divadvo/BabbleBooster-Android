@@ -65,6 +65,9 @@
         <activity
             android:name="com.divadvo.babbleboosternew.features.customizeStimuli.CustomizeStimuliActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.divadvo.babbleboosternew.features.testChoose.TestChooseActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
 
         <activity

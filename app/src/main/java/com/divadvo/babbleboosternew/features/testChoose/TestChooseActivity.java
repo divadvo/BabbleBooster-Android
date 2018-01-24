@@ -1,4 +1,5 @@
-package com.divadvo.babbleboosternew.features.choosePhonemes;
+package com.divadvo.babbleboosternew.features.testChoose;
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,46 +7,39 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.divadvo.babbleboosternew.R;
 import com.divadvo.babbleboosternew.data.local.LocalUser;
 import com.divadvo.babbleboosternew.features.base.BaseActivity;
-import com.divadvo.babbleboosternew.features.home.HomeActivity;
-import com.divadvo.babbleboosternew.features.home.HomePresenter;
-import com.divadvo.babbleboosternew.features.learnPhonemes.LearnPhonemesActivity;
+import com.divadvo.babbleboosternew.features.recordVideo.RecordVideoActivity;
 import com.divadvo.babbleboosternew.injection.component.ActivityComponent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 
-public class ChoosePhonemesActivity extends BaseActivity implements ChoosePhonemesMvpView {
+public class TestChooseActivity extends BaseActivity implements TestChooseMvpView {
+
     @Inject
-    ChoosePhonemesPresenter choosePhonemesPresenter;
+    TestChoosePresenter testChoosePresenter;
 
-    @BindView(R.id.layout_phoneme_buttons)
+    @BindView(R.id.layout_phoneme_test_buttons)
     LinearLayout linearLayout;
-
 
     private List<String> phonemes;
 
     public static Intent getStartIntent(Context context) {
-        Intent intent = new Intent(context, ChoosePhonemesActivity.class);
-//        intent.putExtra(EXTRA_POKEMON_NAME, pokemonName);
+        Intent intent = new Intent(context, TestChooseActivity.class);
         return intent;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        phonemes = Arrays.asList("p", "b", "k");
         phonemes = LocalUser.getInstance().getCurrentPhonemes();
-        // get from user
+
         generateButtons();
     }
 
@@ -59,8 +53,14 @@ public class ChoosePhonemesActivity extends BaseActivity implements ChoosePhonem
             if(i == 3)
                 break;
 
+            int numberOfAttemptsRemaining = testChoosePresenter.calculateNumberOfAttemptsRemaining(phoneme);
+
+            String buttonText = String.format("%s\n%d", phoneme, numberOfAttemptsRemaining);
+            boolean buttonEnabled = numberOfAttemptsRemaining > 0;
+
             Button button = new Button(this);
-            button.setText(phoneme);
+            button.setText(buttonText);
+            button.setEnabled(buttonEnabled);
             button.setTextSize(36);
             button.setOnClickListener(buttonClickListener);
 
@@ -71,7 +71,7 @@ public class ChoosePhonemesActivity extends BaseActivity implements ChoosePhonem
 
     @Override
     public int getLayout() {
-        return R.layout.activity_choose_phonemes;
+        return R.layout.activity_test_choose;
     }
 
     @Override
@@ -81,12 +81,12 @@ public class ChoosePhonemesActivity extends BaseActivity implements ChoosePhonem
 
     @Override
     protected void attachView() {
-        choosePhonemesPresenter.attachView(this);
+        testChoosePresenter.attachView(this);
     }
 
     @Override
     protected void detachPresenter() {
-        choosePhonemesPresenter.detachView();
+        testChoosePresenter.detachView();
     }
 
     public class ButtonClickListener implements View.OnClickListener {
@@ -94,9 +94,13 @@ public class ChoosePhonemesActivity extends BaseActivity implements ChoosePhonem
         public void onClick(View v) {
             // Start learning the chosen phoneme
             Button btn = (Button) v;
-            String phoneme = btn.getText().toString();
+            String buttonText = btn.getText().toString();
 
-            startActivity(LearnPhonemesActivity.getStartIntent(getApplicationContext(), phoneme, false));
+            String lines[] = buttonText.split("\\r?\\n");
+
+            String phoneme = lines[0];
+
+            startActivity(RecordVideoActivity.getStartIntent(getApplicationContext(), phoneme, true));
             finish();
         }
 

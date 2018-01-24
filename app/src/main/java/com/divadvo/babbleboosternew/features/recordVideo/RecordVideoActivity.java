@@ -13,10 +13,12 @@ import android.widget.VideoView;
 import com.afollestad.materialcamera.MaterialCamera;
 import com.divadvo.babbleboosternew.Constants;
 import com.divadvo.babbleboosternew.R;
+import com.divadvo.babbleboosternew.data.local.LocalUser;
 import com.divadvo.babbleboosternew.features.base.BaseActivity;
 import com.divadvo.babbleboosternew.features.choosePhonemes.ChoosePhonemesActivity;
 import com.divadvo.babbleboosternew.features.choosePhonemes.ChoosePhonemesPresenter;
 import com.divadvo.babbleboosternew.features.learnPhonemes.LearnPhonemesActivity;
+import com.divadvo.babbleboosternew.features.testChoose.TestChooseActivity;
 import com.divadvo.babbleboosternew.injection.component.ActivityComponent;
 
 import java.io.File;
@@ -27,6 +29,7 @@ import butterknife.BindView;
 
 public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpView {
     public static final String EXTRA_PHONEME = "EXTRA_PHONEME";
+    public static final String EXTRA_TEST = "EXTRA_TEST";
 
 
     private final static int CAMERA_RQ = 6969;
@@ -47,10 +50,12 @@ public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpV
     RecordVideoPresenter recordVideoPresenter;
 
     private String phoneme;
+    private boolean isTest;
 
-    public static Intent getStartIntent(Context context, String phoneme) {
+    public static Intent getStartIntent(Context context, String phoneme, boolean isTest) {
         Intent intent = new Intent(context, RecordVideoActivity.class);
         intent.putExtra(EXTRA_PHONEME, phoneme);
+        intent.putExtra(EXTRA_TEST, isTest);
         return intent;
     }
 
@@ -59,6 +64,7 @@ public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpV
         super.onCreate(savedInstanceState);
 
         phoneme = getIntent().getStringExtra(EXTRA_PHONEME);
+        isTest = getIntent().getBooleanExtra(EXTRA_TEST, false);
         if (phoneme == null) {
             throw new IllegalArgumentException("Record Video Activity requires a phoneme");
         }
@@ -76,7 +82,7 @@ public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpV
      * Video recording starts automatically and ends after max 10 seconds
      */
     private void startCamera() {
-        String folder = recordVideoPresenter.getVideoFolder();
+        String folder = recordVideoPresenter.getVideoFolder(isTest);
 
         new MaterialCamera(this)
                 .allowRetry(false)
@@ -87,7 +93,7 @@ public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpV
                 .defaultToFrontFacing(true)
                 .videoPreferredAspect(16f / 9f)
                 .retryExits(false)
-                .autoRecordWithDelayMs(100)
+                .autoRecordWithDelayMs(10) //100
                 .countdownSeconds(10f) // max length of video is 10 seconds
                 .countdownImmediately(true) // recording starts automatically
                 .start(CAMERA_RQ);
@@ -109,21 +115,10 @@ public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpV
         }
     }
 
+    private String originalFilePath;
+
     private void saveAttemptVideo(String videoPath) {
-        // Rename the recorded video to
-        // [attemptnumber].[same_file_extension]
-
-//        File from = new File(StorageUtils.directoryAttempts, new File(videoPath).getName());
-//        attemptNumberFull = getFullAttemptString();
-//        String newFilename = attemptNumberFull + "." + StorageUtils.getFileExtension(from);
-//        File to = new File(StorageUtils.directoryAttempts, newFilename);
-//        from.renameTo(to);
-
-//        showRecordedVideo(to.getAbsolutePath());
-
-//        File from = new File(videoPath);
-
-
+        originalFilePath = videoPath;
         showRecordedVideo(videoPath);
     }
 
@@ -133,12 +128,13 @@ public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpV
     }
 
 
-
     private void runSaveAttemptInDatabase(String response) {
 //        AttemptLocal attemptLocal = new AttemptLocal(user.getUserid(), attemptNumberFull, CommonUtils.getCurrentTimeStamp(), phoneme, response);
 //
 //        LocalDatabaseHelper databaseHelper = LocalDatabaseHelper.getInstance(this);
 //        databaseHelper.addAttempt(attemptLocal);
+
+        recordVideoPresenter.saveAttemptInDatabase(phoneme, isTest, originalFilePath, response);
 
         Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
 
@@ -158,14 +154,18 @@ public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpV
             playVideo("GOOD_TRY");
         }
         if ("TRY AGAIN".equals(response)) {
-            startActivity(LearnPhonemesActivity.getStartIntent(this, phoneme, true));
+            if (!isTest)
+                startActivity(LearnPhonemesActivity.getStartIntent(this, phoneme, true));
+            else
+                startActivity(TestChooseActivity.getStartIntent(this));
+
             finish();
         }
     }
 
     private void playVideo(String name) {
         String videoPath = recordVideoPresenter.getReinforcementVideo(name);
-        if(videoPath != null) {
+        if (videoPath != null) {
             videoView.setVideoPath(videoPath);
             videoView.start();
 
@@ -178,7 +178,10 @@ public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpV
 
 
     private void startChoosePhoneme() {
-        startActivity(ChoosePhonemesActivity.getStartIntent(this));
+        if (!isTest)
+            startActivity(ChoosePhonemesActivity.getStartIntent(this));
+        else
+            startActivity(TestChooseActivity.getStartIntent(this));
         finish();
     }
 

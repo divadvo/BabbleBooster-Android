@@ -6,7 +6,12 @@ public interface LockMvpView extends MvpView {
 
     void loginSuccessfulOffline(String password);
 
-    void loginSuccessfulOnline(String password);
+    void savedUserInLocal(String password);
 
     void wrongPassword();
+
+    void displayStatus(int numberRemaining);
+
+    void tryStartingHomeButWaitUntilFinished();
+
 }

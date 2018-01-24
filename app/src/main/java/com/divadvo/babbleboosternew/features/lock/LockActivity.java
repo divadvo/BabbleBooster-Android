@@ -9,11 +9,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.divadvo.babbleboosternew.R;
 import com.divadvo.babbleboosternew.data.firebase.FirebaseSyncHelper;
+import com.divadvo.babbleboosternew.data.local.LocalUser;
 import com.divadvo.babbleboosternew.data.local.PermissionsUtils;
+import com.divadvo.babbleboosternew.data.local.User;
 import com.divadvo.babbleboosternew.features.base.BaseActivity;
 import com.divadvo.babbleboosternew.features.home.HomeActivity;
 import com.divadvo.babbleboosternew.injection.component.ActivityComponent;
@@ -24,6 +27,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -47,6 +52,9 @@ public class LockActivity extends BaseActivity implements LockMvpView {
 
     @BindView(R.id.button_login_online)
     Button buttonLoginOnline;
+
+    @BindView(R.id.text_status)
+    TextView textStatus;
 
 //    @BindView(R.id.button_clear_data)
 //    Button buttonClearData;
@@ -133,16 +141,46 @@ public class LockActivity extends BaseActivity implements LockMvpView {
 
     @Override
     public void loginSuccessfulOffline(String password) {
+        // Load user from local prefs
+//        LocalUser.setInstance();
+        lockPresenter.loadUser();
+        startHomeActivity();
+    }
+
+    private void startHomeActivity() {
         startActivity(HomeActivity.getStartIntent(this));
-//        Toast.makeText(this, "Logged in as " + password, Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override
-    public void loginSuccessfulOnline(String password) {
+    public void savedUserInLocal(String password) {
         // Sync with firebase
-        // Download, then upload
-//        FirebaseSyncHelper firebaseSyncHelper = new FirebaseSyncHelper(this);
+//        textStatus.setText("Please wait");
+        lockPresenter.loadUser();
+        firebaseSyncHelper.setProgressView(this);
         firebaseSyncHelper.downloadFromFirebase();
         firebaseSyncHelper.uploadEverything();
+    }
+
+    @Override
+    public void tryStartingHomeButWaitUntilFinished() {
+//        try {
+//            Thread.sleep(300);
+//            while (firebaseSyncHelper.tasksToF.get() > 0) {
+////                textStatus.setText(firebaseSyncHelper.tasksToF.toString());
+//                textStatus.append(firebaseSyncHelper.tasksToF.toString());
+//                Thread.sleep(300);
+//            }
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        startHomeActivity();
+    }
+
+    @Override
+    public void displayStatus(int numberRemaining) {
+        textStatus.setText("Plase wait until 0. Remaining: " + numberRemaining);
+        Timber.i("Remaining: " + numberRemaining);
+        buttonLogin.setEnabled(numberRemaining == 0);
     }
 }
