@@ -9,6 +9,8 @@ import com.divadvo.babbleboosternew.features.base.BasePresenter;
 import com.divadvo.babbleboosternew.injection.ConfigPersistent;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -57,14 +59,13 @@ public class RecordVideoPresenter extends BasePresenter<RecordVideoMvpView> {
     }
 
 
-
     private String getFullAttemptString(String phoneme, int attemptNumber, boolean isTest) {
         // Rename the recorded video to
         // [attemptnumber].[same_file_extension]
 
-        // For example: tt2013_b_12
+        String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         String prefix = isTest ? "test" : "attempt";
-        String fullAttempt = String.format("%s_%s_%s_%s", prefix, LocalUser.getInstance().username, phoneme, attemptNumber);
+        String fullAttempt = String.format("%s_%s_%s_%s_%s", prefix, LocalUser.getInstance().username, phoneme, attemptNumber, timestamp);
         return fullAttempt;
     }
 }

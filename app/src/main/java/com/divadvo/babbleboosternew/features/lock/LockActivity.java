@@ -76,7 +76,10 @@ public class LockActivity extends BaseActivity implements LockMvpView {
 
         buttonLoginOnline.setOnClickListener(v -> {
             String enteredPassword = editTextPassword.getText().toString();
-            lockPresenter.loginOnline(enteredPassword);
+            if(enteredPassword.isEmpty())
+                Toast.makeText(this, "Enter password", Toast.LENGTH_SHORT).show();
+            else
+                lockPresenter.loginOnline(enteredPassword);
         });
 
 

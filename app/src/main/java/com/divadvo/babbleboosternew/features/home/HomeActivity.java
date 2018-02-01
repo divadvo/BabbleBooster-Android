@@ -94,9 +94,9 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
                 .positiveText("OK")
                 .negativeText("Cancel")
                 .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)
-                .input("Password", "ds2018", (dialog, input) -> {
+                .input("Password", "", (dialog, input) -> {
                     String inputString = input.toString();
-                    if(inputString.equals("ds2018"))
+                    if(inputString.equals(LocalUser.getInstance().username))
                         startSettingsActivity();
                 }).show();
     }
