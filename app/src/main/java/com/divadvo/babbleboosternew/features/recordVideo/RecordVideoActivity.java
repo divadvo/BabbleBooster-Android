@@ -88,7 +88,7 @@ public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpV
                 .allowRetry(false)
                 .autoSubmit(true)
                 .saveDir(folder)
-                .qualityProfile(Constants.CAMERA_QUALITY)
+//                .qualityProfile(Constants.CAMERA_QUALITY)
                 .showPortraitWarning(false)
                 .defaultToFrontFacing(true)
                 .videoPreferredAspect(16f / 9f)

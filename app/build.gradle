@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply from: '../config/quality/quality.gradle'
 apply from: '../config/jacoco.gradle'
 apply plugin: 'com.github.ben-manes.versions'
-//apply plugin: 'io.fabric'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 27
@@ -135,6 +135,10 @@ dependencies {
     compile 'com.afollestad:material-camera:0.4.4'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     compile 'com.synnapps:carouselview:0.1.4'
+
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+        transitive = true
+    }
 
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 }
