@@ -28,14 +28,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.divadvo.babbleboosternew.features.main.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name="com.divadvo.babbleboosternew.features.detail.DetailActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name="com.divadvo.babbleboosternew.features.lock.LockActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -92,9 +84,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name="com.divadvo.babbleboosternew.features.detail.MapsSampleActivity"
-            android:label="@string/title_activity_maps_sample" />
     </application>
 
 </manifest>
