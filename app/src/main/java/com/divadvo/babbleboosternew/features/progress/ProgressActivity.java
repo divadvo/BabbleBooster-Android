@@ -18,7 +18,7 @@ import butterknife.BindView;
 
 public class ProgressActivity extends BaseActivity implements ProgressMvpView {
     @Inject
-    ProgressPresenter choosePhonemesPresenter;
+    ProgressPresenter progressPresenter;
 
     @BindView(R.id.text_view_current_scores)
     TextView textViewCurrentScores;
@@ -50,6 +50,7 @@ public class ProgressActivity extends BaseActivity implements ProgressMvpView {
     }
 
     private void generateCurrentText() {
+        progressPresenter.loadUser();
         List<String> currentPhonemes = LocalUser.getInstance().getCurrentPhonemes();
 
         int i = 0;
@@ -58,7 +59,7 @@ public class ProgressActivity extends BaseActivity implements ProgressMvpView {
             if(i > 3)
                 break;
 
-            double average = choosePhonemesPresenter.getBestDayAverage(phoneme);
+            double average = progressPresenter.getBestDayAverage(phoneme);
             String text = phoneme;
 
             // only display the average when it's not 0
@@ -87,11 +88,11 @@ public class ProgressActivity extends BaseActivity implements ProgressMvpView {
 
     @Override
     protected void attachView() {
-        choosePhonemesPresenter.attachView(this);
+        progressPresenter.attachView(this);
     }
 
     @Override
     protected void detachPresenter() {
-        choosePhonemesPresenter.detachView();
+        progressPresenter.detachView();
     }
 }

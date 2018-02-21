@@ -54,6 +54,7 @@ public class SettingsChooseActivity extends BaseActivity implements SettingsChoo
     private void getPhonemes() {
 //        phonemes = new ArrayList<>(user.getCurrentPhonemes());
 //        phonemes = Arrays.asList("p", "b", "k");
+        settingsChoosePresenter.loadUser();
         phonemes = LocalUser.getInstance().getCurrentPhonemes();
     }
 

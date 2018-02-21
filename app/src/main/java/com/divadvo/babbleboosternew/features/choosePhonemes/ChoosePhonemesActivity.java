@@ -44,6 +44,7 @@ public class ChoosePhonemesActivity extends BaseActivity implements ChoosePhonem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        phonemes = Arrays.asList("p", "b", "k");
+        choosePhonemesPresenter.loadUser();
         phonemes = LocalUser.getInstance().getCurrentPhonemes();
         // get from user
         generateButtons();

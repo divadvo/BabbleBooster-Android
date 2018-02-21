@@ -2,6 +2,7 @@ package com.divadvo.babbleboosternew.features.progress;
 
 import com.divadvo.babbleboosternew.data.DataManager;
 import com.divadvo.babbleboosternew.data.local.DbManager;
+import com.divadvo.babbleboosternew.data.local.PreferencesHelper;
 import com.divadvo.babbleboosternew.features.base.BasePresenter;
 import com.divadvo.babbleboosternew.injection.ConfigPersistent;
 
@@ -9,16 +10,21 @@ import javax.inject.Inject;
 
 @ConfigPersistent
 public class ProgressPresenter extends BasePresenter<ProgressMvpView> {
-    private final DataManager dataManager;
+    private PreferencesHelper preferencesHelper;
     private final DbManager dbManager;
 
     @Inject
-    public ProgressPresenter(DataManager dataManager, DbManager dbManager) {
-        this.dataManager = dataManager;
+    public ProgressPresenter(PreferencesHelper preferencesHelper, DbManager dbManager) {
+        this.preferencesHelper = preferencesHelper;
         this.dbManager = dbManager;
     }
 
     public double getBestDayAverage(String phoneme) {
         return dbManager.getBestDayAverage(phoneme);
+    }
+
+
+    public void loadUser() {
+        preferencesHelper.loadUser();
     }
 }

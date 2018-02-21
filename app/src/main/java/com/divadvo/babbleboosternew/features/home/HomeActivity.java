@@ -65,6 +65,7 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
     }
 
     private void enableSomeButtons() {
+        homePresenter.loadUser();
         User user = LocalUser.getInstance();
         Date today = new Date();
 

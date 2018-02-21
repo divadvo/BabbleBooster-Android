@@ -124,8 +124,8 @@ ext {
     rxJavaLibs = rxJava.values()
     otherLibs = [butterKnife, timber, dagger, glide, glideOkhttp]
 
-    debugLibs = onlyDebug.values() + leakCannary
-    releaseLibs = onlyRelease.values() + leakCannary
+    debugLibs = onlyDebug.values() //+ leakCannary
+    releaseLibs = onlyRelease.values() //+ leakCannary
     annotationProcessorLibs = [butterKnifeCompiler, daggerCompiler, glideCompiler]
 
     unitTestLibs = unitTest.values() + leakCannary

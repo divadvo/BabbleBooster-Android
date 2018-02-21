@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.facebook.stetho.Stetho;
 import com.singhajit.sherlock.core.Sherlock;
-import com.squareup.leakcanary.LeakCanary;
+//import com.squareup.leakcanary.LeakCanary;
 import com.tspoon.traceur.Traceur;
 
 import com.divadvo.babbleboosternew.injection.component.AppComponent;
@@ -29,7 +29,7 @@ public class MvpStarterApplication extends Application {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
             Stetho.initializeWithDefaults(this);
-            LeakCanary.install(this);
+//            LeakCanary.install(this);
             Sherlock.init(this);
             Traceur.enableLogging();
         }
