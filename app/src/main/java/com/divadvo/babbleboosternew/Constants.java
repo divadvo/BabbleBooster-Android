@@ -10,7 +10,7 @@ public interface Constants {
 
     boolean DELETE_UPLOADED_VIDEOS = true;
 
-    int DAYS_IN_ROW_FOR_MASTERED = 3;
+    int DAYS_IN_ROW_FOR_MASTERED = 3; // 3
     int MIN_NUMBER_ATTEMPTS_ENOUGH_PER_DAY = 4;
     double MIN_GOOD_AVERAGE_PER_DAY = 75.0;
 

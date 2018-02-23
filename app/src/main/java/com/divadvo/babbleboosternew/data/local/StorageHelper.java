@@ -16,6 +16,8 @@ import timber.log.Timber;
 @Singleton
 public class StorageHelper {
 
+    public static final String VIDEO_REGEX = "([^\\s]+(\\.(?i)(mp4|3gp))$)";
+    public static final String IMAGE_REGEX = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)";
     private Storage storage;
 
     private String rootAppInternalFolder;
@@ -88,28 +90,28 @@ public class StorageHelper {
     }
 
     public List<File> getAllAttemptVideos() {
-        String regex = "([^\\s]+(\\.(?i)(mp4))$)";
+        String regex = VIDEO_REGEX;
         String path = getAttemptFolder();
         List<File> files = storage.getFiles(path, regex);
         return files;
     }
 
     public List<File> getAllTestVideos() {
-        String regex = "([^\\s]+(\\.(?i)(mp4))$)";
+        String regex = VIDEO_REGEX;
         String path = getTestFolder();
         List<File> files = storage.getFiles(path, regex);
         return files;
     }
 
     public List<File> getAllImagesForPhoneme(String phoneme) {
-        String regex = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)";
+        String regex = IMAGE_REGEX;
         String path = getPhonemeFolder(phoneme);
         List<File> files = storage.getFiles(path, regex);
         return files;
     }
 
     public List<File> getAllVideosForPhoneme(String phoneme) {
-        String regex = "([^\\s]+(\\.(?i)(mp4))$)";
+        String regex = VIDEO_REGEX;
         String path = getPhonemeFolder(phoneme);
         List<File> files = storage.getFiles(path, regex);
         return files;

@@ -216,11 +216,15 @@ public class CustomizeStimuliActivity extends BaseActivity implements CustomizeS
     void addNewVideoClick() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
 //        intent.setType("image/* video/*");
-        intent.setType("video/mp4");
+//        intent.setType("video/mp4");
         startActivityForResult(Intent.createChooser(intent, "Select Video"), FILE_IMAGE);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        shouldCheckCredentials = false;
+        super.onActivityResult(requestCode, resultCode, data);
+        shouldCheckCredentials = false;
+
         if (resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
             String selectedPath = getPath(selectedImageUri);

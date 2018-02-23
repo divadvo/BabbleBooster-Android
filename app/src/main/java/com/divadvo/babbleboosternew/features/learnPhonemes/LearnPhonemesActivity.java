@@ -15,6 +15,7 @@ import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.divadvo.babbleboosternew.R;
+import com.divadvo.babbleboosternew.data.local.StorageHelper;
 import com.divadvo.babbleboosternew.features.base.BaseActivity;
 import com.divadvo.babbleboosternew.features.choosePhonemes.ChoosePhonemesMvpView;
 import com.divadvo.babbleboosternew.features.choosePhonemes.ChoosePhonemesPresenter;
@@ -217,7 +218,7 @@ public class LearnPhonemesActivity extends BaseActivity implements LearnPhonemes
 
     private void getImages() {
 //        imageFilesToDisplay = StorageUtils.getImagesListForPhoneme(phoneme);
-        String regex = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)";
+        String regex = StorageHelper.IMAGE_REGEX;
         String path = phonemeDirectoryPath;
         List<File> files = storage.getFiles(path, regex);
 
@@ -232,7 +233,7 @@ public class LearnPhonemesActivity extends BaseActivity implements LearnPhonemes
 
     private void getVideos() {
 //        videosToDisplay = StorageUtils.getVideosListForPhoneme(phoneme, true);
-        String regex = "([^\\s]+(\\.(?i)(mp4))$)";
+        String regex = StorageHelper.VIDEO_REGEX;
         String path = phonemeDirectoryPath;
         List<File> files = storage.getFiles(path, regex);
 

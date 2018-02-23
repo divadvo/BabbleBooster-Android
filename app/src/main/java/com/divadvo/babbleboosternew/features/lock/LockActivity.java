@@ -4,6 +4,8 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -55,6 +57,7 @@ public class LockActivity extends BaseActivity implements LockMvpView {
 
     @BindView(R.id.text_status)
     TextView textStatus;
+    private String enteredPassword;
 
 //    @BindView(R.id.button_clear_data)
 //    Button buttonClearData;
@@ -69,14 +72,22 @@ public class LockActivity extends BaseActivity implements LockMvpView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PermissionsUtils.requestAllPermissions(this);
+
+
         buttonLogin.setOnClickListener(v -> {
-            String enteredPassword = editTextPassword.getText().toString();
-            lockPresenter.loginOffline(enteredPassword);
+            enteredPassword = editTextPassword.getText().toString();
+            if(!enteredPassword.isEmpty()) {
+                if (isNetworkConnected(this))
+                    lockPresenter.loginOnline(enteredPassword);
+                else
+                    lockPresenter.loginOffline(enteredPassword);
+            }
         });
 
         buttonLoginOnline.setOnClickListener(v -> {
             String enteredPassword = editTextPassword.getText().toString();
-            if(enteredPassword.isEmpty())
+            if (enteredPassword.isEmpty())
                 Toast.makeText(this, "Enter password", Toast.LENGTH_SHORT).show();
             else
                 lockPresenter.loginOnline(enteredPassword);
@@ -84,9 +95,8 @@ public class LockActivity extends BaseActivity implements LockMvpView {
 
 
         // Login disabled if not logged in online yet
-        buttonLogin.setEnabled(lockPresenter.doesLocalUserExist());
+//        buttonLogin.setEnabled(lockPresenter.doesLocalUserExist());
 
-        PermissionsUtils.requestAllPermissions(this);
 
 
     }
@@ -103,6 +113,13 @@ public class LockActivity extends BaseActivity implements LockMvpView {
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    private boolean isNetworkConnected(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
 //    @OnClick(R.id.button_clear_data)
@@ -161,6 +178,7 @@ public class LockActivity extends BaseActivity implements LockMvpView {
 //        textStatus.setText("Please wait");
         lockPresenter.loadUser();
         firebaseSyncHelper.setProgressView(this);
+        firebaseSyncHelper.waitSeconds(5);
         firebaseSyncHelper.downloadFromFirebase();
         firebaseSyncHelper.uploadEverything();
     }
@@ -185,5 +203,8 @@ public class LockActivity extends BaseActivity implements LockMvpView {
         textStatus.setText("Plase wait until 0. Remaining: " + numberRemaining);
         Timber.i("Remaining: " + numberRemaining);
         buttonLogin.setEnabled(numberRemaining == 0);
+        if(numberRemaining == 0) {
+            lockPresenter.loginOffline(enteredPassword);
+        }
     }
 }

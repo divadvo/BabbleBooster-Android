@@ -103,7 +103,7 @@ public class CustomizeReinforcementActivity extends BaseActivity implements Cust
 //        intent.setAction(Intent.ACTION_GET_CONTENT);
 
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("video/mp4");
+//        intent.setType("video/mp4");
         startActivityForResult(Intent.createChooser(intent, "Select YES Video"), VIDEO_YES);
 
     }
@@ -114,11 +114,15 @@ public class CustomizeReinforcementActivity extends BaseActivity implements Cust
 //        intent.setAction(Intent.ACTION_GET_CONTENT);
 
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("video/mp4");
+//        intent.setType("video/mp4");
         startActivityForResult(Intent.createChooser(intent, "Select GOOD TRY Video"), VIDEO_GOOD_TRY);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        shouldCheckCredentials = false;
+        super.onActivityResult(requestCode, resultCode, data);
+        shouldCheckCredentials = false;
+
         if (resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
 //            String selectedImagePath = getRealPathFromURI(this, selectedImageUri);

@@ -51,13 +51,14 @@ public class LockPresenter extends BasePresenter<LockMvpView> {
         return !usernameSaved.equals("");
     }
 
-    private void signInAnonymously() {
+    private void signInAnonymously(String password) {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         mAuth.signInAnonymously()
         .addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Timber.i("Success");
+                afterSignedInOnline(password);
             } else {
                 Timber.i("Failed");
             }
@@ -66,9 +67,10 @@ public class LockPresenter extends BasePresenter<LockMvpView> {
 
     public void loginOnline(String password) {
         checkViewAttached();
+        signInAnonymously(password);
+    }
 
-        signInAnonymously();
-
+    private void afterSignedInOnline(String password) {
         // Get the document from firestore under "users" collection
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("users").document(password);

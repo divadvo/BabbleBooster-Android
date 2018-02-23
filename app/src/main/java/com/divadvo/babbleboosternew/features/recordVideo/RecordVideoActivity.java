@@ -82,6 +82,8 @@ public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpV
      * Video recording starts automatically and ends after max 10 seconds
      */
     private void startCamera() {
+        shouldCheckCredentials = false;
+
         String folder = recordVideoPresenter.getVideoFolder(isTest);
 
         new MaterialCamera(this)
@@ -94,14 +96,18 @@ public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpV
                 .videoPreferredAspect(16f / 9f)
                 .retryExits(false)
                 .autoRecordWithDelayMs(10) //100
-                .countdownSeconds(10f) // max length of video is 10 seconds
+//                .countdownSeconds(10f) // max length of video is 10 seconds
                 .countdownImmediately(true) // recording starts automatically
                 .start(CAMERA_RQ);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        shouldCheckCredentials = false;
         super.onActivityResult(requestCode, resultCode, data);
+        shouldCheckCredentials = false;
+
+
 
         // Received recording or error from MaterialCamera
         if (requestCode == CAMERA_RQ) {

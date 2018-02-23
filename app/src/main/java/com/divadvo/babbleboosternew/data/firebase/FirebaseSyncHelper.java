@@ -3,6 +3,7 @@ package com.divadvo.babbleboosternew.data.firebase;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.divadvo.babbleboosternew.Constants;
@@ -178,8 +179,7 @@ public class FirebaseSyncHelper {
     public void uploadEverything() {
         uploadAttempts();
         uploadTests();
-        uploadDatabase();
-        uploadMastered();
+        downloadDatabase();
     }
 
     private void uploadAttempts() {
@@ -215,10 +215,18 @@ public class FirebaseSyncHelper {
         }
     }
 
+
+
+    private void downloadDatabase() {
+        // Then
+
+        uploadDatabase();
+        uploadMastered();
+    }
+
     private void uploadDatabase() {
 //        progressView.displayStatus("Uploading results");
 
-        List<Attempt> allAttempts = dbManager.getAllAttempts();
 
 //        CollectionReference collectionAttempts = db.collection("results").document(LocalUser.getInstance().username).collection("attempts");
         CollectionReference collectionAttempts = db.collection("results");
@@ -229,11 +237,21 @@ public class FirebaseSyncHelper {
         .get()
         .addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
+                List<Attempt> allAttemptsBefore = dbManager.getAllAttempts();
                 for (DocumentSnapshot document : task.getResult()) {
                     Attempt attempt = document.toObject(Attempt.class);
                     attemptsInDatabase.add(attempt);
+
+                    // If remote attempt is of the current user
+                    // And it's not in the local database, then save it
+                    if(attempt.getUsername().equals(LocalUser.getInstance().username) && !allAttemptsBefore.contains(attempt)) {
+                        dbManager.saveAttempt(attempt);
+                    }
                 }
 
+
+                List<Attempt> allAttempts = dbManager.getAllAttempts();
+                // Upload not existent
                 for(Attempt attempt : allAttempts) {
                     // Skip if already uploaded
                     if(attemptsInDatabase.contains(attempt))
@@ -314,5 +332,20 @@ public class FirebaseSyncHelper {
 
     public void setProgressView(LockMvpView progressView) {
         this.progressView = progressView;
+    }
+
+    public void waitSeconds(int i) {
+        tasksToF.incrementAndGet();
+        progressView.displayStatus(tasksToF.get());
+
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            // Do after i seconds
+            tasksToF.decrementAndGet();
+            progressView.displayStatus(tasksToF.get());
+        }, i * 1000);
+
+
+
     }
 }

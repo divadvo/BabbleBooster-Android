@@ -12,6 +12,7 @@ import com.divadvo.babbleboosternew.data.local.LocalUser;
 import com.divadvo.babbleboosternew.data.local.User;
 import com.divadvo.babbleboosternew.features.base.BaseActivity;
 import com.divadvo.babbleboosternew.features.choosePhonemes.ChoosePhonemesActivity;
+import com.divadvo.babbleboosternew.features.lock.LockActivity;
 import com.divadvo.babbleboosternew.features.progress.ProgressActivity;
 import com.divadvo.babbleboosternew.features.settingsChoose.SettingsChooseActivity;
 import com.divadvo.babbleboosternew.features.testChoose.TestChooseActivity;

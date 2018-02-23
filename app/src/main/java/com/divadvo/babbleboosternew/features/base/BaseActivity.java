@@ -1,5 +1,6 @@
 package com.divadvo.babbleboosternew.features.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.util.LongSparseArray;
 import android.support.v7.app.AppCompatActivity;
@@ -8,11 +9,14 @@ import android.view.MenuItem;
 import java.util.concurrent.atomic.AtomicLong;
 
 import butterknife.ButterKnife;
+
 import com.divadvo.babbleboosternew.MvpStarterApplication;
+import com.divadvo.babbleboosternew.features.lock.LockActivity;
 import com.divadvo.babbleboosternew.injection.component.ActivityComponent;
 import com.divadvo.babbleboosternew.injection.component.ConfigPersistentComponent;
 import com.divadvo.babbleboosternew.injection.component.DaggerConfigPersistentComponent;
 import com.divadvo.babbleboosternew.injection.module.ActivityModule;
+
 import timber.log.Timber;
 
 /**
@@ -94,5 +98,47 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         detachPresenter();
         super.onDestroy();
+    }
+
+
+    public static final int REQUEST_CODE = 1;
+    public static final int REQUEST_CODE_START_ANOTHER = 67;
+    protected boolean shouldCheckCredentials = false;
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        shouldCheckCredentials = true;
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        if (shouldCheckCredentials) {
+            startActivityForResult(LockActivity.getStartIntent(this), REQUEST_CODE);
+            finish();
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == BaseActivity.REQUEST_CODE && resultCode == RESULT_OK) {
+            shouldCheckCredentials = false;
+        }
+
+        if(requestCode == REQUEST_CODE_START_ANOTHER && resultCode == RESULT_CANCELED) {
+            shouldCheckCredentials = false;
+        }
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        startActivityForResult(intent, REQUEST_CODE_START_ANOTHER);
     }
 }
