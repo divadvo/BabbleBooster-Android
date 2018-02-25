@@ -11,6 +11,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.afollestad.materialcamera.MaterialCamera;
+import com.crashlytics.android.Crashlytics;
 import com.divadvo.babbleboosternew.Constants;
 import com.divadvo.babbleboosternew.R;
 import com.divadvo.babbleboosternew.data.local.LocalUser;
@@ -108,7 +109,6 @@ public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpV
         shouldCheckCredentials = false;
 
 
-
         // Received recording or error from MaterialCamera
         if (requestCode == CAMERA_RQ) {
 
@@ -117,6 +117,7 @@ public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpV
             } else if (data != null) {
                 Exception e = (Exception) data.getSerializableExtra(MaterialCamera.ERROR_EXTRA);
                 e.printStackTrace();
+                Crashlytics.logException(e);
             }
         }
     }
@@ -154,10 +155,20 @@ public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpV
 
     private void performActionAfterResponse(String response) {
         if ("YES".equals(response)) {
-            playVideo("YES");
+            if (!isTest)
+                playVideo("YES");
+            else {
+                startActivity(TestChooseActivity.getStartIntent(this));
+                finish();
+            }
         }
         if ("GOOD TRY".equals(response)) {
-            playVideo("GOOD_TRY");
+            if (!isTest)
+                playVideo("GOOD_TRY");
+            else {
+                startActivity(TestChooseActivity.getStartIntent(this));
+                finish();
+            }
         }
         if ("TRY AGAIN".equals(response)) {
             if (!isTest)

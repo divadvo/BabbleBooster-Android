@@ -142,7 +142,7 @@ public class CustomizeReinforcementActivity extends BaseActivity implements Cust
     private void updateVideo(String path, String type) {
         File userReinforcementFolder = new File(customizeReinforcementPresenter.getReinforcementFolder());
         // YES.mp4 for example
-        String fileName = type + "." + customizeReinforcementPresenter.getFileExtension(new File(path));
+        String fileName = type + "_MY." + customizeReinforcementPresenter.getFileExtension(new File(path));
         File newReinforcementVideoFile = new File(userReinforcementFolder, fileName);
 
         // Copy and play the video

@@ -2,6 +2,7 @@ package com.divadvo.babbleboosternew.data.local;
 
 import android.content.Context;
 
+import com.crashlytics.android.Crashlytics;
 import com.snatik.storage.Storage;
 
 import java.io.File;
@@ -63,8 +64,17 @@ public class StorageHelper {
 
     public String getReinforcementVideo(String type) {
         File reinforcementFolder = new File(getReinforcementFolder());
+
+        List<File> possibleFiles = new ArrayList<>();
+
         for (File videoFile : reinforcementFolder.listFiles()) {
             if (videoFile.getName().toUpperCase().contains(type)) {
+                possibleFiles.add(videoFile);
+            }
+        }
+
+        for(File videoFile : possibleFiles) {
+            if(videoFile.getName().toUpperCase().contains("MY")) {
                 return videoFile.getAbsolutePath();
             }
         }
@@ -145,7 +155,9 @@ public class StorageHelper {
     }
 
     public String newAttemptFilePath(String videoPath, String attemptName, boolean isTest) {
+        Crashlytics.log(videoPath);
         File originalFile = new File(videoPath); // with file://
+        Crashlytics.log(originalFile.toString());
         String newFilename = attemptName + "." + getFileExtension(originalFile);
         String folder = isTest ? getTestFolder() : getAttemptFolder();
 
