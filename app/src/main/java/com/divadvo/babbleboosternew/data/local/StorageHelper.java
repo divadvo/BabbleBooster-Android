@@ -65,16 +65,15 @@ public class StorageHelper {
     public String getReinforcementVideo(String type) {
         File reinforcementFolder = new File(getReinforcementFolder());
 
-        List<File> possibleFiles = new ArrayList<>();
-
         for (File videoFile : reinforcementFolder.listFiles()) {
-            if (videoFile.getName().toUpperCase().contains(type)) {
-                possibleFiles.add(videoFile);
+            String filename = videoFile.getName().toUpperCase();
+            if (filename.contains(type) && filename.contains("MY")) {
+                return videoFile.getAbsolutePath();
             }
         }
 
-        for(File videoFile : possibleFiles) {
-            if(videoFile.getName().toUpperCase().contains("MY")) {
+        for(File videoFile : reinforcementFolder.listFiles()) {
+            if(videoFile.getName().toUpperCase().contains(type)) {
                 return videoFile.getAbsolutePath();
             }
         }

@@ -91,7 +91,7 @@ public class LearnPhonemesActivity extends BaseActivity implements LearnPhonemes
 
         initListeners();
         getImagesAndVideo();
-        showCurrentImage();
+        showCurrentImage(true);
 
         // Goes to last video
         // After TRY_AGAIN button in the RecordVideoActivity was pressed
@@ -114,6 +114,8 @@ public class LearnPhonemesActivity extends BaseActivity implements LearnPhonemes
         phonemeVideo.setOnPreparedListener(mp -> mp.setLooping(true));
 
         btnSkip.setOnClickListener(v -> {
+            phonemeVideo.stopPlayback();
+            phonemeAudio.stop();
             startActivity(RecordVideoActivity.getStartIntent(this, phoneme, false));
             finish();
         });
@@ -132,13 +134,15 @@ public class LearnPhonemesActivity extends BaseActivity implements LearnPhonemes
         btnWatchVideo.setVisibility(View.INVISIBLE);
     }
 
-    private void showCurrentImage() {
+    private void showCurrentImage(boolean playSound) {
         String imagePath = imageFilesToDisplay.get(currentImageIndex);
         Glide.with(this).load(new File(imagePath)).into(phonemeImage);
 //        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 //        phonemeImage.setImageBitmap(bitmap);
-        phonemeAudio.seekTo(0);
-        phonemeAudio.start();
+        if(playSound) {
+            phonemeAudio.seekTo(0);
+            phonemeAudio.start();
+        }
     }
 
     /**
@@ -150,7 +154,7 @@ public class LearnPhonemesActivity extends BaseActivity implements LearnPhonemes
         currentImageIndex++;
         if (currentImageIndex == imageFilesToDisplay.size()) {
             currentImageIndex = 0;
-            showCurrentImage();
+            showCurrentImage(false);
 
             // Show videos
             phonemeVideo.setVisibility(View.VISIBLE);
@@ -158,7 +162,7 @@ public class LearnPhonemesActivity extends BaseActivity implements LearnPhonemes
             setCurrentVideo();
             playCurrentVideo();
         } else {
-            showCurrentImage();
+            showCurrentImage(true);
         }
 
     }
@@ -198,7 +202,7 @@ public class LearnPhonemesActivity extends BaseActivity implements LearnPhonemes
 
             btnWatchVideo.setVisibility(View.VISIBLE);
             btnSkip.setVisibility(View.INVISIBLE);
-            showCurrentImage();
+            showCurrentImage(true);
 
         } else {
             setCurrentVideo();
