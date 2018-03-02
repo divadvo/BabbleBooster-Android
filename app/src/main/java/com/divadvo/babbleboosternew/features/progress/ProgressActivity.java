@@ -56,7 +56,7 @@ public class ProgressActivity extends BaseActivity implements ProgressMvpView {
         int i = 0;
         String currentPhonemesText = "";
         for (String phoneme : currentPhonemes) {
-            if(i > 3)
+            if(i == 3)
                 break;
 
             double average = progressPresenter.getBestDayAverage(phoneme);

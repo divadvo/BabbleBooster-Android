@@ -67,13 +67,18 @@ public class SettingsChooseActivity extends BaseActivity implements SettingsChoo
         // The stimuli can be change after the parent
         // clicks on one of the phonemes
 
+        int i = 0;
         for (String phoneme : phonemes) {
+            if(i == 3)
+                break;
             Button button = new Button(this);
             button.setText(phoneme);
             button.setTextSize(24);
             button.setOnClickListener(buttonClickListener);
 
             linearLayout.addView(button, layoutParams);
+
+            i++;
         }
     }
 
