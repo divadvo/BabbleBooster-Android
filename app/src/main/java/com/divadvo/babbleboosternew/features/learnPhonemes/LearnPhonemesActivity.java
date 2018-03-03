@@ -110,8 +110,7 @@ public class LearnPhonemesActivity extends BaseActivity implements LearnPhonemes
             return true;
         });
 
-        // The videos will play in a loop
-        phonemeVideo.setOnPreparedListener(mp -> mp.setLooping(true));
+//        phonemeVideo.setOnPreparedListener(mp -> mp.setLooping(true));
 
         btnSkip.setOnClickListener(v -> {
             phonemeVideo.stopPlayback();
@@ -182,6 +181,23 @@ public class LearnPhonemesActivity extends BaseActivity implements LearnPhonemes
     }
 
     private void playCurrentVideo() {
+        // The videos will play in a loop
+//        phonemeVideo.setOnPreparedListener(mp -> mp.setLooping(true));
+        if(currentVideoIndex == videosToDisplay.size() - 1) {
+            btnSkip.setEnabled(false);
+            phonemeVideo.setOnCompletionListener(mp -> {
+                btnSkip.setEnabled(true);
+//                phonemeVideo.setOnPreparedListener(mp2 -> mp2.setLooping(true));
+                phonemeVideo.start();
+
+            });
+        }
+        else {
+//            phonemeVideo.setOnPreparedListener(mp2 -> mp2.setLooping(true));
+            phonemeVideo.setOnCompletionListener(mp -> {
+                phonemeVideo.start();
+            });
+        }
         phonemeVideo.start();
     }
 

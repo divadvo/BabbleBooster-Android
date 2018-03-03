@@ -183,13 +183,13 @@ public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpV
     private void playVideo(String name) {
         String videoPath = recordVideoPresenter.getReinforcementVideo(name);
         if (videoPath != null) {
-            videoView.setVideoPath(videoPath);
-            videoView.start();
-
             // Play until the end of the video
             // Then go back to the menu where one can
             // choose the phonemes
             videoView.setOnCompletionListener(mp -> startChoosePhoneme());
+
+            videoView.setVideoPath(videoPath);
+            videoView.start();
         }
     }
 
