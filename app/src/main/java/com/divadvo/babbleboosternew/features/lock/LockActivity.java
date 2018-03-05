@@ -76,6 +76,7 @@ public class LockActivity extends BaseActivity implements LockMvpView {
 
 
         buttonLogin.setOnClickListener(v -> {
+            buttonLogin.setEnabled(false);
             enteredPassword = editTextPassword.getText().toString();
             if(!enteredPassword.isEmpty()) {
                 if (isNetworkConnected(this))
@@ -83,6 +84,7 @@ public class LockActivity extends BaseActivity implements LockMvpView {
                 else
                     lockPresenter.loginOffline(enteredPassword);
             }
+//            buttonLogin.setEnabled(true);
         });
 
         buttonLoginOnline.setOnClickListener(v -> {
@@ -157,6 +159,7 @@ public class LockActivity extends BaseActivity implements LockMvpView {
     public void wrongPassword() {
         Timber.e("Wrong Password");
         Toast.makeText(this, "Wrong password", Toast.LENGTH_SHORT).show();
+        buttonLogin.setEnabled(true);
     }
 
     @Override
@@ -164,6 +167,7 @@ public class LockActivity extends BaseActivity implements LockMvpView {
         // Load user from local prefs
 //        LocalUser.setInstance();
         lockPresenter.loadUser();
+        buttonLogin.setEnabled(true);
         startHomeActivity();
     }
 
@@ -178,6 +182,7 @@ public class LockActivity extends BaseActivity implements LockMvpView {
 //        textStatus.setText("Please wait");
         lockPresenter.loadUser();
         firebaseSyncHelper.setProgressView(this);
+        buttonLogin.setEnabled(false);
         firebaseSyncHelper.waitSeconds(5);
         firebaseSyncHelper.downloadFromFirebase();
         firebaseSyncHelper.uploadEverything();
