@@ -97,7 +97,7 @@ public class RecordVideoActivity extends BaseActivity implements RecordVideoMvpV
                 .videoPreferredAspect(16f / 9f)
                 .retryExits(false)
                 .autoRecordWithDelayMs(10) //100
-//                .countdownSeconds(10f) // max length of video is 10 seconds
+                .countdownSeconds(90f) // max length of video is 90 seconds
                 .countdownImmediately(true) // recording starts automatically
                 .start(CAMERA_RQ);
     }

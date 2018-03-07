@@ -205,7 +205,7 @@ public class LockActivity extends BaseActivity implements LockMvpView {
 
     @Override
     public void displayStatus(int numberRemaining) {
-        textStatus.setText("Plase wait until 0. Remaining: " + numberRemaining);
+        textStatus.setText("Please wait until 0. Remaining: " + numberRemaining);
         Timber.i("Remaining: " + numberRemaining);
         buttonLogin.setEnabled(numberRemaining == 0);
         if(numberRemaining == 0) {
