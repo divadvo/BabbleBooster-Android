@@ -14,6 +14,7 @@ import com.divadvo.babbleboosternew.features.base.BaseActivity;
 import com.divadvo.babbleboosternew.features.recordVideo.RecordVideoActivity;
 import com.divadvo.babbleboosternew.injection.component.ActivityComponent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -38,7 +39,11 @@ public class TestChooseActivity extends BaseActivity implements TestChooseMvpVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        phonemes = LocalUser.getInstance().getCurrentPhonemes();
+        phonemes = new ArrayList<>();
+        phonemes.addAll(LocalUser.getInstance().getCurrentPhonemes());
+        phonemes.addAll(LocalUser.getInstance().mastered_phonemes);
+
+//        phonemes = LocalUser.getInstance().getCurrentPhonemes();
 
         generateButtons();
     }
@@ -50,12 +55,12 @@ public class TestChooseActivity extends BaseActivity implements TestChooseMvpVie
 
         int i = 0;
         for (String phoneme : phonemes) {
-            if(i == 3)
-                break;
+//            if(i == 3)
+//                break;
 
             int numberOfAttemptsRemaining = testChoosePresenter.calculateNumberOfAttemptsRemaining(phoneme);
 
-            String buttonText = String.format("%s\n%d", phoneme, numberOfAttemptsRemaining);
+            String buttonText = String.format("%s %d", phoneme, numberOfAttemptsRemaining); // \n
             boolean buttonEnabled = numberOfAttemptsRemaining > 0;
 
             Button button = new Button(this);
