@@ -101,7 +101,7 @@ public class TestChooseActivity extends BaseActivity implements TestChooseMvpVie
             Button btn = (Button) v;
             String buttonText = btn.getText().toString();
 
-            String lines[] = buttonText.split("\\r?\\n");
+            String lines[] = buttonText.split("\\s+"); // "\\r?\\n"
 
             String phoneme = lines[0];
 
